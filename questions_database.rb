@@ -5,6 +5,7 @@ require_relative 'question.rb'
 require_relative 'reply.rb'
 require_relative 'user.rb'
 require_relative 'question_follow.rb'
+require_relative 'question_like.rb'
 
 class QuestionsDatabase < SQLite3::Database
     include Singleton
@@ -18,8 +19,8 @@ end
 
 
 if $PROGRAM_NAME == __FILE__
-  top_followed = QuestionFollow.most_followed_questions(3)
-  p top_followed
+  # top_followed = QuestionFollow.most_followed_questions(3)
+  # p top_followed
 
-
+  QuestionLike.num_likes_for_question_id(2)
 end
