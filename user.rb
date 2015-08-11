@@ -66,4 +66,30 @@ class User
     SQL
     average_karma.first.values.first
   end
+
+  def save
+    self.id.nil? ? insert_user : update_user
+  end
+
+  def insert_user
+    QuestionsDatabase.instance.execute(<<-SQL, self.fname, self.lname)
+      INSERT INTO
+        users (fname, lname)
+      VALUES
+        (?, ?)
+    SQL
+
+    @id = QuestionsDatabase.instance.last_insert_row_id
+  end
+
+  def update_user
+    QuestionsDatabase.instance.execute(<<-SQL, self.fname, self.lname, self.id)
+      UPDATE
+        users
+      SET
+        fname = ?, lname = ?
+      WHERE
+        id = ?
+    SQL
+  end
 end

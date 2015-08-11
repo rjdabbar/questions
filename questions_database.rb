@@ -26,5 +26,27 @@ if $PROGRAM_NAME == __FILE__
 
   # p QuestionLike.liked_questions_for_user_id(4)
 
-  p User.find_by_id(1).average_karma
+  # p User.find_by_id(1).average_karma
+
+  # first_test_user =  User.find_by_name('Test', 'User')
+  # p first_test_user
+  # first_test_user.fname = "Bob"
+  # first_test_user.save
+  # p User.find_by_id(first_test_user.id)
+
+  # test_q = Question.new
+  # test_q.title = 'TEST QUESTION'
+  # test_q.body = "THIS IS A BODY"
+  # test_q.user_id = 2
+  # test_q.save
+  #
+  # second_q = Question.find_by_title('TEST QUESTION')
+  #
+  # second_q.title = "I CHANGED IT"
+  # second_q.save
+  # p Question.find_by_title('I CHANGED IT')
+
+  test_reply = Reply.new( { "user_id" => 1, "question_id" => 1, "body" => "meh" } )
+  test_reply.save
+  p User.find_by_id(1).authored_replies
 end

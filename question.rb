@@ -14,7 +14,7 @@ class Question
   end
 
   def self.find_by_title(title)
-    question = QuestionDatabase.instance.execute(<<-SQL, title)
+    question = QuestionsDatabase.instance.execute(<<-SQL, title)
       SELECT
         *
       FROM
@@ -45,8 +45,8 @@ class Question
     QuestionLike.most_liked_questions(n)
   end
 
-  attr_accessor :title, :body
-  attr_reader :id, :user_id
+  attr_accessor :title, :body, :user_id
+  attr_reader :id
 
   def initialize(options = {})
     @id = options['id']
@@ -73,6 +73,32 @@ class Question
 
   def num_likes
     QuestionLike.num_likes_for_question_id(self.id)
+  end
+
+  def save
+   self.id.nil? ? insert_question : update_question
+  end
+
+  def insert_question
+    QuestionsDatabase.instance.execute(<<-SQL, self.title, self.body, self.user_id)
+      INSERT INTO
+        questions (title, body, user_id)
+      VALUES
+        (?, ?, ?)
+
+      SQL
+      @id = QuestionsDatabase.instance.last_insert_row_id
+  end
+
+  def update_question
+    QuestionsDatabase.instance.execute(<<-SQL, self.title, self.body, self.user_id, self.id)
+      UPDATE
+        questions
+      SET
+        title = ?, body = ?, user_id = ?
+      WHERE
+        id = ?
+      SQL
   end
 
 end
