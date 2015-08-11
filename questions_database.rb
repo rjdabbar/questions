@@ -30,5 +30,5 @@ if $PROGRAM_NAME == __FILE__
 
   # p Question.where({id: 1})
 
-  p User.where({fname: 'RJ', lname: 'Dabbar'})
+  p Reply.find_by_user_id_and_question_id(1, 1)
 end

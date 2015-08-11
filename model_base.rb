@@ -40,6 +40,10 @@ class ModelBase
     results.map { |result| self.new(result) }
   end
 
+  def self.method_missing(method, *args)
+    self.where(method.to_s.gsub('find_by_', '').split("_and_").zip(args).to_h)
+  end
+
   def save
     self.id.nil? ? insert : update
   end
