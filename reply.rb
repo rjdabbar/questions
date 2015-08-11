@@ -1,18 +1,14 @@
 require_relative 'questions_database'
+require_relative 'model_base.rb'
 
-class Reply
+class Reply < ModelBase
 
   def self.find_by_id(id)
-    reply = QuestionsDatabase.instance.execute(<<-SQL, id)
-      SELECT
-        *
-      FROM
-        replies
-      WHERE
-        replies.id = ?
-    SQL
+    super(id)
+  end
 
-    Reply.new(reply[0])
+  def self.all
+    super
   end
 
   def self.find_by_user_id(user_id)
@@ -89,29 +85,4 @@ class Reply
     children.map { |child_reply| Reply.new(child_reply) }
   end
 
-  def save
-    self.id.nil? ? insert_reply : update_reply
-  end
-
-  def insert_reply
-    QuestionsDatabase.instance.execute(<<-SQL, self.user_id, self.question_id, self.parent_reply_id, self.body)
-      INSERT INTO
-        replies (user_id, question_id, parent_reply_id, body)
-      VALUES
-        (?, ?, ?, ?)
-    SQL
-
-    @id = QuestionsDatabase.instance.last_insert_row_id
-  end
-
-  def update_reply
-    QuestionsDatabase.instance.execute(<<-SQL, self.user_id, self.question_id, self.parent_reply_id, self.body, self.id)
-      UPDATE
-        replies
-      SET
-        user_id = ?, question_id = ?, parent_reply_id = ?, body = ?
-      WHERE
-        id = ?
-    SQL
-  end
 end

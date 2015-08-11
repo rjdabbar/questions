@@ -1,18 +1,14 @@
 require_relative 'questions_database'
+require_relative 'model_base.rb'
 
-class User
+class User < ModelBase
 
   def self.find_by_id(id)
-    user = QuestionsDatabase.instance.execute(<<-SQL, id)
-      SELECT
-        *
-      FROM
-        users
-      WHERE
-        users.id = ?
-    SQL
+    super(id)
+  end
 
-    User.new(user[0])
+  def self.all
+    super
   end
 
   def self.find_by_name(fname, lname)
@@ -65,31 +61,5 @@ class User
         questions.user_id = ?
     SQL
     average_karma.first.values.first
-  end
-
-  def save
-    self.id.nil? ? insert_user : update_user
-  end
-
-  def insert_user
-    QuestionsDatabase.instance.execute(<<-SQL, self.fname, self.lname)
-      INSERT INTO
-        users (fname, lname)
-      VALUES
-        (?, ?)
-    SQL
-
-    @id = QuestionsDatabase.instance.last_insert_row_id
-  end
-
-  def update_user
-    QuestionsDatabase.instance.execute(<<-SQL, self.fname, self.lname, self.id)
-      UPDATE
-        users
-      SET
-        fname = ?, lname = ?
-      WHERE
-        id = ?
-    SQL
   end
 end

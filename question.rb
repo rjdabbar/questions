@@ -1,16 +1,13 @@
 require_relative 'questions_database.rb'
-class Question
+require_relative 'model_base.rb'
+class Question < ModelBase
 
   def self.find_by_id(id)
-    question = QuestionsDatabase.instance.execute(<<-SQL, id)
-      SELECT
-        *
-      FROM
-        questions
-      WHERE
-        questions.id = ?
-    SQL
-    Question.new(question[0])
+    super(id)
+  end
+
+  def self.all
+    super
   end
 
   def self.find_by_title(title)
@@ -73,32 +70,6 @@ class Question
 
   def num_likes
     QuestionLike.num_likes_for_question_id(self.id)
-  end
-
-  def save
-   self.id.nil? ? insert_question : update_question
-  end
-
-  def insert_question
-    QuestionsDatabase.instance.execute(<<-SQL, self.title, self.body, self.user_id)
-      INSERT INTO
-        questions (title, body, user_id)
-      VALUES
-        (?, ?, ?)
-
-      SQL
-      @id = QuestionsDatabase.instance.last_insert_row_id
-  end
-
-  def update_question
-    QuestionsDatabase.instance.execute(<<-SQL, self.title, self.body, self.user_id, self.id)
-      UPDATE
-        questions
-      SET
-        title = ?, body = ?, user_id = ?
-      WHERE
-        id = ?
-      SQL
   end
 
 end

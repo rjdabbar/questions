@@ -19,5 +19,16 @@ end
 
 
 if $PROGRAM_NAME == __FILE__
-  p QuestionFollow.followers_for_question_id(1)
+  # q = Question.new( {'title' => 'Test Question', 'body' => 'This is a test.', 'user_id' => 1 } )
+  # q.save
+
+  # new_q = Question.find_by_id(10)
+  # p new_q
+  # new_q.title = "TEST TITLE CHANGED"
+  # new_q.save
+  # p Question.all
+
+  # p Question.where({id: 1})
+
+  p User.where({fname: 'RJ', lname: 'Dabbar'})
 end
