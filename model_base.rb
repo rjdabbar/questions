@@ -25,17 +25,22 @@ class ModelBase
   end
 
   def self.where(options)
-    columns = options.keys
-    values = options.values
+    if options.is_a?(Hash)
+      columns = options.keys
+      values = options.values
+      where_string = columns.map { |col| col.to_s + " = ?" }.join(" AND ")
+    else
+      where_string = options
+      values = []
+    end
 
-    where_col = columns.map { |col| col.to_s + " = ?" }.join(" AND ")
     results = QuestionsDatabase.instance.execute(<<-SQL, *values)
     SELECT
       *
     FROM
       #{DB_HASH[self.to_s]}
     WHERE
-      #{where_col}
+      #{where_string}
     SQL
     results.map { |result| self.new(result) }
   end

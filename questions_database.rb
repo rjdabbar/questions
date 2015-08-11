@@ -30,5 +30,8 @@ if $PROGRAM_NAME == __FILE__
 
   # p Question.where({id: 1})
 
-  p Reply.find_by_user_id_and_question_id(1, 1)
+  # p Reply.find_by_user_id_and_question_id(1, 1)
+
+  p User.where("lname = 'Song'")
+  p User.where({ lname: 'Song' })
 end
