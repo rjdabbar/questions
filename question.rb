@@ -46,4 +46,12 @@ class Question
     @body = options[body]
     @user_id = options[user_id]
   end
+
+  def author
+    User.find_by_question(self.id)
+  end
+
+  def replies
+    Reply.find_by_question(self.id)
+  end
 end
