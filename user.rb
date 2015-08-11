@@ -38,14 +38,32 @@ class User
   end
 
   def authored_questions
-    Question.find_by_user(self.id)
+    Question.find_by_user_id(self.id)
   end
 
   def authored_replies
-    Reply.find_by_user(self.id)
+    Reply.find_by_user_id(self.id)
   end
 
   def followed_questions
-    QuestionFollow.followed_questions_for_user(self.id)
+    QuestionFollow.followed_questions_for_user_id(self.id)
+  end
+
+  def liked_questions
+    QuestionLike.liked_questions_for_user_id(self.id)
+  end
+
+  def average_karma
+    average_karma = QuestionsDatabase.instance.execute(<<-SQL, self.id)
+      SELECT
+        COALESCE(SUM(question_likes.likes)/CAST(COUNT(DISTINCT questions.id) AS FLOAT), 0)
+      FROM
+        questions
+      LEFT OUTER JOIN
+        question_likes ON questions.id = question_likes.question_id
+      WHERE
+        questions.user_id = ?
+    SQL
+    average_karma.first.values.first
   end
 end

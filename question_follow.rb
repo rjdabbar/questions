@@ -2,7 +2,7 @@ require_relative 'questions_database'
 
 class QuestionFollow
 
-  def self.followers_for_question(question_id)
+  def self.followers_for_question_id(question_id)
     users = QuestionsDatabase.instance.execute(<<-SQL, question_id)
       SELECT
         users.id, users.fname, users.lname
@@ -19,7 +19,7 @@ class QuestionFollow
     users.map { |user| User.new(user) }
   end
 
-  def self.followed_questions_for_user(user_id)
+  def self.followed_questions_for_user_id(user_id)
     questions = QuestionsDatabase.instance.execute(<<-SQL, user_id)
       SELECT
         questions.id, questions.title, questions.body, questions.user_id

@@ -45,6 +45,7 @@ INSERT INTO
   questions (title, body, user_id)
 VALUES
   ('Question 1', 'How do magnets work?', (SELECT id FROM users WHERE fname = 'Aiven')),
+  ('Question 5', 'Who is the best karate master of all time?', (SELECT id FROM users WHERE fname = 'Aiven')),
   ('Question 2', 'Why is the sky blue?', (SELECT id FROM users WHERE fname = 'RJ')),
   ('Question 3', 'What are the secrets of Kung Fu?', (SELECT id FROM users WHERE fname = 'Jackie')),
   ('Question 4', 'Where is the kung pao chicken in town?', (SELECT id FROM users WHERE fname = 'Bruce'));
@@ -112,4 +113,6 @@ VALUES
   ((SELECT id FROM users WHERE fname = "Aiven"), (SELECT id FROM questions WHERE title = 'Question 2'), 1),
   ((SELECT id FROM users WHERE fname = "RJ"), (SELECT id FROM questions WHERE title = 'Question 2'), 4),
   ((SELECT id FROM users WHERE fname = "Jackie"), (SELECT id FROM questions WHERE title = 'Question 2'), 2),
-  ((SELECT id FROM users WHERE fname = "Bruce"), (SELECT id FROM questions WHERE title = 'Question 3'), 1);
+  ((SELECT id FROM users WHERE fname = "Bruce"), (SELECT id FROM questions WHERE title = 'Question 3'), 1),
+  ((SELECT id FROM users WHERE fname = "Bruce"), (SELECT id FROM questions WHERE title = 'Question 5'), 1),
+  ((SELECT id FROM users WHERE fname = "Jackie"), (SELECT id FROM questions WHERE title = 'Question 5'), 1);

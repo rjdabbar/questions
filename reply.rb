@@ -15,7 +15,7 @@ class Reply
     Reply.new(reply[0])
   end
 
-  def self.find_by_user(user_id)
+  def self.find_by_user_id(user_id)
     replies = QuestionsDatabase.instance.execute(<<-SQL, user_id)
       SELECT
         *
@@ -28,7 +28,7 @@ class Reply
     replies.map { |reply| Reply.new(reply) }
   end
 
-  def self.find_by_question(question_id)
+  def self.find_by_question_id(question_id)
     replies = QuestionsDatabase.instance.execute(<<-SQL, question_id)
       SELECT
         *

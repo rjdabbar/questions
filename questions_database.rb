@@ -22,5 +22,9 @@ if $PROGRAM_NAME == __FILE__
   # top_followed = QuestionFollow.most_followed_questions(3)
   # p top_followed
 
-  QuestionLike.num_likes_for_question_id(2)
+  #QuestionLike.num_likes_for_question_id(2)
+
+  # p QuestionLike.liked_questions_for_user_id(4)
+
+  p User.find_by_id(1).average_karma
 end
