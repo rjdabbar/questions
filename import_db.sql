@@ -53,7 +53,11 @@ VALUES
   ((SELECT id FROM users WHERE fname = 'Aiven'),
     (SELECT id FROM questions WHERE user_id = (SELECT id FROM users WHERE fname = 'Aiven'))),
   ((SELECT id FROM users WHERE fname = 'RJ'),
-    (SELECT id FROM questions WHERE user_id = (SELECT id FROM users WHERE fname = 'RJ')));
+    (SELECT id FROM questions WHERE user_id = (SELECT id FROM users WHERE fname = 'RJ'))),
+  ((SELECT id FROM users WHERE fname = 'Aiven'),
+    (SELECT id FROM questions WHERE user_id = (SELECT id FROM users WHERE fname = 'RJ'))),
+  ((SELECT id FROM users WHERE fname = 'RJ'),
+    (SELECT id FROM questions WHERE user_id = (SELECT id FROM users WHERE fname = 'Aiven')));
 
 INSERT INTO
   replies(question_id, parent_reply_id, user_id, body)
