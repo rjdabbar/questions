@@ -37,6 +37,10 @@ class Question
     questions.map {|question| Question.new(question)}
   end
 
+  def self.most_followed(n)
+    QuestionFollow.most_followed_questions(n)
+  end
+
   attr_accessor :title, :body
   attr_reader :id, :user_id
 
@@ -53,5 +57,9 @@ class Question
 
   def replies
     Reply.find_by_question(self.id)
+  end
+
+  def followers
+    QuestionFollow.followers_for_question(self.id)
   end
 end

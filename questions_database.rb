@@ -18,23 +18,8 @@ end
 
 
 if $PROGRAM_NAME == __FILE__
-  # q = Question.find_by_id(1)
-  # # p q
-  #
-  # reply1 = Reply.find_by_id(1)
-  # reply2 = Reply.find_by_id(2)
-  #
-  # # p reply1
-  # # p reply2
-  #
-  # user1 = User.find_by_name('RJ', 'Dabbar')
-  # # p user1
-  #
-  # p reply1.child_replies
+  top_followed = QuestionFollow.most_followed_questions(3)
+  p top_followed
 
-  question_follows = QuestionFollow.followers_for_question(1)
-  p question_follows
 
-  questions_follower = QuestionFollow.followed_questions_for_user(2)
-  p questions_follower
 end
