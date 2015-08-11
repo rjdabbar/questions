@@ -7,13 +7,11 @@ class QuestionFollow
       SELECT
         users.id, users.fname, users.lname
       FROM
-        questions
-      JOIN
-        question_follows ON question_follows.question_id = questions.id
+        question_follows
       JOIN
         users ON question_follows.user_id = users.id
       WHERE
-        questions.id = ?
+        question_follows.question_id = ?
     SQL
 
     users.map { |user| User.new(user) }
@@ -24,13 +22,11 @@ class QuestionFollow
       SELECT
         questions.id, questions.title, questions.body, questions.user_id
       FROM
-        users
-      JOIN
-        question_follows ON users.id = question_follows.user_id
+        question_follows
       JOIN
         questions ON questions.id = question_follows.question_id
       WHERE
-        users.id = ?
+        question_follows.user_id = ?
     SQL
 
     questions.map { |question| Question.new(question) }
