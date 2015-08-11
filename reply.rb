@@ -64,4 +64,28 @@ class Reply
     @parent_reply_id = options[parent_reply_id]
     @body = options[body]
   end
+
+  def author
+    User.find_by_id(self.user_id)
+  end
+
+  def question
+    Question.find_by_id(self.question_id)
+  end
+
+  def parent_reply
+    Reply.find_by_id(self.parent_reply_id)
+  end
+
+  def child_replies
+    children = QuestionDatabase.instance.execute(<<-SQL, self.id)
+      SELECT
+        *
+      FROM
+        replies
+      WHERE
+        replies.parent_reply_id = ?
+    SQL
+    children.map { |child_reply| Reply.new(child_reply) }
+  end
 end
