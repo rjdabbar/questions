@@ -12,7 +12,7 @@ class User
         users.id = ?
     SQL
 
-    User.new(user)
+    User.new(user[0])
   end
 
   def self.find_by_name(fname, lname)
@@ -25,16 +25,16 @@ class User
         users.fname = ? AND users.lname = ?
     SQL
 
-    User.new(user)
+    User.new(user[0])
   end
 
   attr_accessor :fname, :lname
   attr_reader :id
 
-  def initalize(options = {})
-    @id = options[id]
-    @fname = options[fname]
-    @lname = options[lname]
+  def initialize(options = {})
+    @id = options['id']
+    @fname = options['fname']
+    @lname = options['lname']
   end
 
   def authored_questions

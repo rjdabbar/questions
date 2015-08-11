@@ -10,7 +10,7 @@ class Question
       WHERE
         questions.id = ?
     SQL
-    Question.new(question)
+    Question.new(question[0])
   end
 
   def self.find_by_title(title)
@@ -22,7 +22,7 @@ class Question
       WHERE
         questions.title = ?
     SQL
-    Question.new(question)
+    Question.new(question[0])
   end
 
   def self.find_by_user(user_id)
@@ -41,10 +41,10 @@ class Question
   attr_reader :id, :user_id
 
   def initialize(options = {})
-    @id = options[id]
-    @title = options[title]
-    @body = options[body]
-    @user_id = options[user_id]
+    @id = options['id']
+    @title = options['title']
+    @body = options['body']
+    @user_id = options['user_id']
   end
 
   def author

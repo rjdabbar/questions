@@ -12,7 +12,7 @@ class Reply
         replies.id = ?
     SQL
 
-    Reply.new(reply)
+    Reply.new(reply[0])
   end
 
   def self.find_by_user(user_id)
@@ -58,11 +58,11 @@ class Reply
   attr_reader :id, :user_id, :question_id, :parent_reply_id
 
   def initialize(options = {})
-    @id = options[id]
-    @user_id = options[user_id]
-    @question_id = options[question_id]
-    @parent_reply_id = options[parent_reply_id]
-    @body = options[body]
+    @id = options['id']
+    @user_id = options['user_id']
+    @question_id = options['question_id']
+    @parent_reply_id = options['parent_reply_id']
+    @body = options['body']
   end
 
   def author
@@ -78,7 +78,7 @@ class Reply
   end
 
   def child_replies
-    children = QuestionDatabase.instance.execute(<<-SQL, self.id)
+    children = QuestionsDatabase.instance.execute(<<-SQL, self.id)
       SELECT
         *
       FROM
